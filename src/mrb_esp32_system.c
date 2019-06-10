@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "esp_system.h"
+#include "esp_sleep.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
