@@ -48,7 +48,7 @@ mrb_esp32_system_deep_sleep_for(mrb_state *mrb, mrb_value self) {
 
 static mrb_value
 mrb_esp32_esp_timer_get_time(mrb_state *mrb, mrb_value self) {
-  return mrb_fixnum_value(esp_timer_get_time());
+  return mrb_float_value(mrb, esp_timer_get_time());
 }
 
 void
