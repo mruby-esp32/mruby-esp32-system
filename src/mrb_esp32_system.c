@@ -5,6 +5,7 @@
 
 #include "esp_system.h"
 #include "esp_sleep.h"
+#include "esp_timer.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -45,6 +46,11 @@ mrb_esp32_system_deep_sleep_for(mrb_state *mrb, mrb_value self) {
   return self;
 }
 
+static mrb_value
+mrb_esp32_esp_timer_get_time(mrb_state *mrb, mrb_value self) {
+  return mrb_float_value(mrb, esp_timer_get_time());
+}
+
 void
 mrb_mruby_esp32_system_gem_init(mrb_state* mrb) {
   struct RClass *esp32_module = mrb_define_module(mrb, "ESP32");
@@ -56,6 +62,10 @@ mrb_mruby_esp32_system_gem_init(mrb_state* mrb) {
   mrb_define_module_function(mrb, esp32_system_module, "sdk_version", mrb_esp32_system_sdk_version, MRB_ARGS_NONE());
   mrb_define_module_function(mrb, esp32_system_module, "restart", mrb_esp32_system_restart, MRB_ARGS_NONE());
   mrb_define_module_function(mrb, esp32_system_module, "deep_sleep_for", mrb_esp32_system_deep_sleep_for, MRB_ARGS_REQ(1));
+
+  struct RClass *esp32_timer_module = mrb_define_module_under(mrb, esp32_module, "Timer");
+
+  mrb_define_module_function(mrb, esp32_timer_module, "get_time", mrb_esp32_esp_timer_get_time, MRB_ARGS_NONE());
 }
 
 void
