@@ -62,7 +62,10 @@ mrb_mruby_esp32_system_gem_init(mrb_state* mrb) {
   mrb_define_module_function(mrb, esp32_system_module, "sdk_version", mrb_esp32_system_sdk_version, MRB_ARGS_NONE());
   mrb_define_module_function(mrb, esp32_system_module, "restart", mrb_esp32_system_restart, MRB_ARGS_NONE());
   mrb_define_module_function(mrb, esp32_system_module, "deep_sleep_for", mrb_esp32_system_deep_sleep_for, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, esp32_system_module, "micros", mrb_esp32_esp_timer_get_time, MRB_ARGS_NONE());
+
+  struct RClass *esp32_timer_module = mrb_define_module_under(mrb, esp32_module, "Timer");
+
+  mrb_define_module_function(mrb, esp32_timer_module, "get_time", mrb_esp32_esp_timer_get_time, MRB_ARGS_NONE());
 }
 
 void
