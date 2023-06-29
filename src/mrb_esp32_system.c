@@ -57,21 +57,9 @@ mrb_esp32_get_chip_model(mrb_state *mrb, mrb_value self) {
   esp_chip_info_t info;
   esp_chip_info(&info);
   
-  // The integer in info.model is one of an enum. Values taken from here:
-  // https://github.com/espressif/esp-idf/blob/67552c31dac8cd94fb0d63192a538f4f984c5b6e/components/esp_hw_support/include/esp_chip_info.h#L22C7-L22C7
-  switch (info.model) {
-    // String format matches style used when installing ESP-IDF.
-    case   1: return mrb_str_new_cstr(mrb, "esp32");
-    case   2: return mrb_str_new_cstr(mrb, "esp32s2");
-    case   9: return mrb_str_new_cstr(mrb, "esp32s3");
-    case   5: return mrb_str_new_cstr(mrb, "esp32c3");
-    case  12: return mrb_str_new_cstr(mrb, "esp32c2");
-    case  13: return mrb_str_new_cstr(mrb, "esp32c6");
-    case  16: return mrb_str_new_cstr(mrb, "esp32h2");
-    case  18: return mrb_str_new_cstr(mrb, "esp32p4");
-    case 999: return mrb_str_new_cstr(mrb, "simulator");
-    default:  return mrb_str_new_cstr(mrb, "unknown");
-  }
+  // The integer value in info.model is one of an enum, esp_chip_model_t, found here:
+  // https://github.com/espressif/esp-idf/blob/master/components/esp_hw_support/include/esp_chip_info.h
+  return mrb_fixnum_value(info.model);
 }
 
 void
