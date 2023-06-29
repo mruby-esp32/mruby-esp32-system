@@ -56,9 +56,6 @@ static mrb_value
 mrb_esp32_get_chip_model(mrb_state *mrb, mrb_value self) {
   esp_chip_info_t info;
   esp_chip_info(&info);
-  
-  // The integer value in info.model is one of an enum, esp_chip_model_t, found here:
-  // https://github.com/espressif/esp-idf/blob/master/components/esp_hw_support/include/esp_chip_info.h
   return mrb_fixnum_value(info.model);
 }
 
@@ -79,6 +76,30 @@ mrb_mruby_esp32_system_gem_init(mrb_state* mrb) {
   // ESP32::Timer
   struct RClass *esp32_timer_module = mrb_define_module_under(mrb, esp32_module, "Timer");
   mrb_define_module_function(mrb, esp32_timer_module, "get_time", mrb_esp32_esp_timer_get_time, MRB_ARGS_NONE());
+  
+  // ESP32::Constants
+  struct RClass *constants = mrb_define_module_under(mrb, esp32_module, "Constants");
+  
+  // Pass a C constant through to mruby, defined inside ESP32::Constants.
+  #define define_const(SYM) \
+  do { \
+    mrb_define_const(mrb, constants, #SYM, mrb_fixnum_value(SYM)); \
+  } while (0)
+
+  //
+  // ESP32::System.chip_model returns a constant from the esp_chip_model_t enum:
+  // https://github.com/espressif/esp-idf/blob/master/components/esp_hw_support/include/esp_chip_info.h
+  //
+  // Define constants from the enum in mruby:
+  define_const(CHIP_ESP32);
+  define_const(CHIP_ESP32S2);
+  define_const(CHIP_ESP32S3);
+  define_const(CHIP_ESP32C3);
+  define_const(CHIP_ESP32C2);
+  define_const(CHIP_ESP32C6);
+  define_const(CHIP_ESP32H2);
+  // define_const(CHIP_ESP32P4);
+  define_const(CHIP_POSIX_LINUX);
 }
 
 void
