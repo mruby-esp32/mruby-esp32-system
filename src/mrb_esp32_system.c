@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 
+#include "esp_idf_version.h"
 #include "esp_system.h"
 #include "esp_sleep.h"
 #include "esp_timer.h"
