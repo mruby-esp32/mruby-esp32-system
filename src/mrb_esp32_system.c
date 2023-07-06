@@ -97,7 +97,9 @@ mrb_mruby_esp32_system_gem_init(mrb_state* mrb) {
   define_const(CHIP_ESP32S3);
   define_const(CHIP_ESP32C3);
   define_const(CHIP_ESP32H2);
-  define_const(CHIP_ESP32C2);
+  #if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0)
+    define_const(CHIP_ESP32C2);
+  #endif
   #if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 1, 0)
     define_const(CHIP_ESP32C6);
     define_const(CHIP_POSIX_LINUX);
